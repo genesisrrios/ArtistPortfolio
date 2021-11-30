@@ -13,7 +13,8 @@ namespace DAL.Services
 {
     public class ArtistService
     {
-        public readonly IMongoCollection<Artist> _collection;
+        private readonly IMongoCollection<Artist> _artistCollection;
+        private readonly IMongoCollection<Picture> _galleryCollection;
         private readonly ArtistDatabaseSettings _settings;
 
         public ArtistService(IOptions<ArtistDatabaseSettings> settings)
@@ -21,12 +22,14 @@ namespace DAL.Services
             _settings = settings.Value;
             var db = new MongoClient(_settings.ConnectionString).GetDatabase(_settings.DatabaseName);
 
-            _collection = db.GetCollection<Artist>(DocumentHelper.GetCollectionName(typeof(Artist)));
+            _artistCollection = db.GetCollection<Artist>(DocumentHelper.GetCollectionName(typeof(Artist)));
+            _galleryCollection = db.GetCollection<Picture>(DocumentHelper.GetCollectionName(typeof(Picture)));
+
         }
 
-        public async Task<List<Artist>> GetAll()
+        public async Task<List<Picture>> GetGallery(int page, int pageSize)
         {
-            return await _collection.Find(x=>true).ToListAsync();
+            return await _galleryCollection.Find(x=>true).ToListAsync();
         }
     }
 }

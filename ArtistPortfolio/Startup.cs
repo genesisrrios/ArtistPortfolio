@@ -19,7 +19,10 @@ namespace ArtistPortfolio
                 Configuration.GetSection("ArtistDatabaseSettings"));
 
             services.AddScoped<ArtistService>();
-            services.AddRazorPages();
+            services.AddRazorPages().AddRazorPagesOptions(options =>
+            {
+                options.RootDirectory = "/Pages";
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
