@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ArtistPortfolio.styles.css" asp-append-version="true" />
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
     <header>
@@ -34,7 +35,7 @@
         </nav>
     </header>
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main" class="pb-3" id="app">
             @RenderBody()
         </main>
     </div>
@@ -44,11 +45,24 @@
             &copy; 2021 - Edibeth Capeles Barrientos <small><a href="https://genesisrrios.com"  target="_blank">Made with ❤️ by Genesis Rivera Rios</a></small>
         </div>
     </footer>
-
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js" asp-fallback-src="/js/vendor/vue-2.5.16.min.js" crossorigin="anonymous"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            mixins:mixinArray,
+            data: {
+                appMessage: 'Hello World'
+                //add more data properties here
+            },
+            methods: {
+                //add methods here
+            }
+        });
+    </script>
 </body>
 </html>

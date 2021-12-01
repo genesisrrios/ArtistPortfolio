@@ -15,9 +15,9 @@ namespace ArtistPortfolio.DAL.Models
         [BsonElement("ArtistId")]
         public string ArtistId { get; set; }
         [BsonRepresentation(BsonType.String)]
-        public string Image { get; set; }
+        public string Name { get; set; }
 
-        public string Size { get; set; }
+        public string Description { get; set; }
 
 
         public DateTime CreatedAt { get; set; }

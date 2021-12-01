@@ -3,15 +3,38 @@
 @{
     ViewData["Title"] = "Gallery";
 }
+@section Styles {
+    <link href="@Url.Content("~/css/image-hover.css")" rel="stylesheet" type="text/css" />
+}
 <div class="row">
     @foreach(var picture in Model.ViewModel.Pictures)
     {
-        <div class="col-md-3">
-            <div class="text-center">
-                <h1 class="display-4">Test</h1>
-                <img loading=lazy src="data:image/png;base64,@picture.Image">
+        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+            <div class="hovereffect">
+                <img class="img-responsive" loading=lazy src="/images/gallery/@picture.Name"  alt="@picture.Description" style="max-height:300px">
+                <div class="overlay">
+				    <p>
+					    <a>@picture.Description</a>
+				    </p>
+                </div>
             </div>
         </div>
     }
 </div>
 
+@section Scripts {
+    <script type="text/javascript">
+        var pageMixin = {
+            data: function () {
+                return {
+                    displayButton1: true,
+                    displayButton2: false
+                };
+            },
+            methods: {
+            }
+        };
+
+        mixinArray.push(pageMixin);
+    </script>
+}
