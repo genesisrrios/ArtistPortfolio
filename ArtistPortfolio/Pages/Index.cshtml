@@ -1,12 +1,17 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Gallery";
 }
-@foreach(var picture in Model.ViewModel.Pictures)
-{
-    <div class="text-center">
-        <h1 class="display-4">Test</h1>
-        <img src="data:image/png;base64,@picture.Image">
-    </div>    
-}
+<div class="row">
+    @foreach(var picture in Model.ViewModel.Pictures)
+    {
+        <div class="col-md-3">
+            <div class="text-center">
+                <h1 class="display-4">Test</h1>
+                <img loading=lazy src="data:image/png;base64,@picture.Image">
+            </div>
+        </div>
+    }
+</div>
+

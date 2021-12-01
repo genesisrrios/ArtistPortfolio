@@ -21,8 +21,6 @@ namespace ArtistPortfolio.Pages
 
         public async Task OnGet()
         {
-            ViewModel.Pictures = await service.GetGallery(1,15);
-            Console.WriteLine("Programming is hell");
         }
     }
 }
