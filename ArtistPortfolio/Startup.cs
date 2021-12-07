@@ -18,7 +18,7 @@ namespace ArtistPortfolio
             services.Configure<ArtistDatabaseSettings>(
                 Configuration.GetSection("ArtistDatabaseSettings"));
 
-            services.AddScoped<ArtistService>();
+            services.AddScoped(typeof(IMongoRepository<>), typeof(MongoRepository<>));
             services.AddRazorPages().AddRazorPagesOptions(options =>
             {
                 options.RootDirectory = "/Pages";
