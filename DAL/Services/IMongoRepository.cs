@@ -54,6 +54,8 @@ namespace DAL.Services
         void DeleteMany(Expression<Func<TDocument, bool>> filterExpression);
 
         Task DeleteManyAsync(Expression<Func<TDocument, bool>> filterExpression);
+
+        Task<(int totalPages, IReadOnlyList<TDocument> data)> GetPagedResults(int page, int pageSize);
     }
     public class MongoRepository<TDocument> : IMongoRepository<TDocument>
         where TDocument : IDocument
@@ -225,7 +227,7 @@ namespace DAL.Services
                 ?.FirstOrDefault()
                 ?.Count;
 
-            var totalPages = (int)Math.Ceiling((double)count / pageSize);
+            var totalPages = (int)Math.Ceiling((double)count.GetValueOrDefault() / pageSize);
 
             var data = aggregation.First()
                 .Facets.First(x => x.Name == "data")
@@ -234,6 +236,4 @@ namespace DAL.Services
             return (totalPages, data);
         }
     }
-
-
 }

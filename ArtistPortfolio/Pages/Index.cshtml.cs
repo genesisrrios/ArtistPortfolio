@@ -24,18 +24,18 @@ namespace ArtistPortfolio.Pages
 
         public async Task OnGet()
         {
-            var images = await _service.GetGallery(1,15);
+            var (totalPages, gallery) = await _service.GetPagedGallery(1,15);
             var provider = new PhysicalFileProvider(_webHostEnvironment.WebRootPath);
             var contents = provider.GetDirectoryContents(Path.Combine("images", "gallery"));
 
-            images.ForEach(x =>
+            foreach(var image in gallery)
             {
                 ViewModel.Pictures.Add(new PictureViewModel
                 {
-                    Description = x.Description,
-                    Name = contents.Where(c=>c.Name.Contains(x.Name)).First().Name
+                    Description = image.Description,
+                    Name = contents.Where(c => c.Name.Contains(image.Name)).First().Name
                 });
-            });
+            }
         }
     }
 }
