@@ -49,18 +49,21 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
+    <environment include="Development">
+        <script src="~/lib/axios/axios.js" asp-append-version="true" asp></script>
+    </environment>
+    <environment include="Production">
+        <script src="~/lib/axios/axios.min.js" asp-append-version="true" asp></script>
+    </environment>
     @await RenderSectionAsync("Scripts", required: false)
     <script type="text/javascript">
-        var app = new Vue({
+        import axios from "axios";
+        let app = new Vue({
             el: '#app',
-            mixins:mixinArray,
+            mixins: mixinArray,
             data: {
-                appMessage: 'Hello World'
-                //add more data properties here
             },
             methods: {
-                //add methods here
             }
         });
     </script>
