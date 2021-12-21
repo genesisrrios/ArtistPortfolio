@@ -1,4 +1,6 @@
 ﻿@page
+@using ArtistPortfolio.Components
+@using ArtistPortfolio.Pages.Shared
 @model IndexModel
 @{
     ViewData["Title"] = "Gallery";
@@ -7,32 +9,5 @@
     <link href="@Url.Content("~/css/image-hover.css")" rel="stylesheet" type="text/css" />
 }
 <div class="row">
-    @foreach(var picture in Model.ViewModel.Pictures)
-    {
-        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-            <div class="hovereffect">
-                <img class="img-responsive" loading=lazy src="/images/gallery/@picture.Name"  alt="@picture.Description" style="max-height:300px">
-                <div class="overlay">
-				    <p>
-					    <a>@picture.Description</a>
-				    </p>
-                </div>
-            </div>
-        </div>
-    }
+    <component type="typeof(Gallery)" render-mode="ServerPrerendered"/>
 </div>
-
-@section Scripts {
-    <script type="text/javascript">
-        let pageMixin = {
-            data: function () {
-                return {
-                };
-            },
-            methods: {
-            }
-        };
-
-        mixinArray.push(pageMixin);
-    </script>
-}

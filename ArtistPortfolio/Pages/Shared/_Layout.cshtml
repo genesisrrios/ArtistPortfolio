@@ -1,6 +1,8 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
+    <base href="~/" />
+    <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Edibeth Capeles Barrientos</title>
@@ -25,6 +27,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Marketplace">Marketplace</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/NFT">NFTs</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Events">Events</a>
@@ -55,9 +60,9 @@
     <environment include="Production">
         <script src="~/lib/axios/axios.min.js" asp-append-version="true" asp></script>
     </environment>
+    <script src="_framework/blazor.server.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
-    <script type="text/javascript">
-        import axios from "axios";
+@*    <script type="text/javascript">
         let app = new Vue({
             el: '#app',
             mixins: mixinArray,
@@ -66,6 +71,6 @@
             methods: {
             }
         });
-    </script>
+    </script>*@
 </body>
 </html>

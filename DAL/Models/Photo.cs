@@ -3,7 +3,7 @@ using DAL.Repository;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace ArtistPortfolio.DAL.Models
+namespace DAL.Models
 {
     [BsonCollection("Gallery")]
     public class Picture : IDocument

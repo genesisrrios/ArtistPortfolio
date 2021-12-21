@@ -55,7 +55,7 @@ namespace DAL.Services
 
         Task DeleteManyAsync(Expression<Func<TDocument, bool>> filterExpression);
 
-        Task<(int totalPages, IReadOnlyList<TDocument> data)> GetPagedResults(int page, int pageSize);
+        Task<(double totalRecords,int totalPages, IReadOnlyList<TDocument> data)> GetPagedResults(int page, int pageSize);
     }
     public class MongoRepository<TDocument> : IMongoRepository<TDocument>
         where TDocument : IDocument
@@ -183,7 +183,7 @@ namespace DAL.Services
         {
             return Task.Run(() => _collection.DeleteManyAsync(filterExpression));
         }
-        public async Task<(int totalPages, IReadOnlyList<TDocument> data)> GetPagedResults(int page, int pageSize)
+        public async Task<(double totalRecords,int totalPages, IReadOnlyList<TDocument> data)> GetPagedResults(int page, int pageSize)
         {
             return await _collection.AggregateByPage(
                 Builders<TDocument>.Filter.Empty,
@@ -194,7 +194,7 @@ namespace DAL.Services
     }
     public static class MongoCollectionQueryByPageExtensions
     {
-        public static async Task<(int totalPages, IReadOnlyList<TDocument> data)> AggregateByPage<TDocument>(
+        public static async Task<(double totalRecords,int totalPages, IReadOnlyList<TDocument> data)> AggregateByPage<TDocument>(
             this IMongoCollection<TDocument> collection,
             FilterDefinition<TDocument> filterDefinition,
             SortDefinition<TDocument> sortDefinition,
@@ -233,7 +233,7 @@ namespace DAL.Services
                 .Facets.First(x => x.Name == "data")
                 .Output<TDocument>();
 
-            return (totalPages, data);
+            return ((double)count.GetValueOrDefault(), totalPages, data);
         }
     }
 }

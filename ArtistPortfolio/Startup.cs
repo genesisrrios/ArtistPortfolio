@@ -1,6 +1,10 @@
 ﻿using DAL;
 using DAL.Repository;
 using DAL.Services;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
 namespace ArtistPortfolio
@@ -18,18 +22,16 @@ namespace ArtistPortfolio
             services.Configure<ArtistDatabaseSettings>(Configuration.GetSection("ArtistDatabaseSettings"));
 
             services.AddSingleton<IArtistDatabaseSettings>(serviceProvider => serviceProvider.GetRequiredService<IOptions<ArtistDatabaseSettings>>().Value);
-
             services.AddScoped(typeof(IMongoRepository<>), typeof(MongoRepository<>));
             services.AddScoped<ArtistService>();
-            services.AddRazorPages().AddRazorPagesOptions(options =>
-            {
-                options.RootDirectory = "/Pages";
-            });
+            services.AddRazorPages();
+            services.AddServerSideBlazor();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-                if (env.IsDevelopment())
+
+                if (env.EnvironmentName == "Development")
                 {
                         app.UseDeveloperExceptionPage();
                 }
@@ -50,6 +52,7 @@ namespace ArtistPortfolio
                 app.UseEndpoints(endpoints =>
                 {
                     endpoints.MapRazorPages();
+                    endpoints.MapBlazorHub();
                 });
         }
     }
