@@ -24,7 +24,7 @@ namespace DAL.Services
             _galleryCollection = pictureCollection;
         }
 
-        public async Task<(double totalPages,int totalRecords, IReadOnlyList<Picture> data)> GetPagedGallery(int page, int pageSize)
+        public async Task<(double totalRecords, int totalPages, IReadOnlyList<Picture> data)> GetPagedGallery(int page, int pageSize)
         {
             return await _galleryCollection.GetPagedResults(page, pageSize);
         }

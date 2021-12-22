@@ -1,15 +1,49 @@
-﻿<ul class="pagination">
-    @for(var i = 1; i <= totalPages; i++)
-    {
-        <li class="page-item @(i == pageNumber ? "active" : "")">
-            <a href="@linkUrl/@i" class="page-link">@i</a>
-        </li>
-    }
-</ul>
+﻿<div class="row">
+    <div class="col-md-8 col-sm-8">
+        @if (PageCount > 1)
+        {
+            <ul class="pagination pull-right">
+                <li><button onclick="@(() => PagerButtonClicked(1))" class="btn">&laquo;</button></li>
+                @for (var i = StartIndex; i <= FinishIndex; i++)
+                {
+                    var currentIndex = i;
+                    @if (i == CurrentPage)
+                    {
+                        <li><span class="btn">@i</span></li>
+                    }
+                    else
+                    {
+                        <li><button onclick="@(() => PagerButtonClicked(currentIndex))" class="btn">@i</button></li>
+                    }
+                }
+                <li><button onclick="@(() => PagerButtonClicked(PageCount))" class="btn">&raquo;</button></li>
+            </ul>
+        }
+    </div>
+</div>
+
 @code {
-    [Parameter] public int pageNumber { get; set; }
-    [Parameter] public int totalRecords { get; set; }
-    [Parameter] public int pageSize { get; set; } = 20;
-    [Parameter] public string linkUrl { get; set;  }
-    [Parameter] public int totalPages { get; set; }
+    [Parameter]
+    public int CurrentPage { get; set; }
+    [Parameter]
+    public int PageCount { get; set; }
+ 
+    [Parameter]
+    public Action<int> PageChanged { get; set; }
+ 
+    protected int StartIndex { get; private set; } = 0;
+    protected int FinishIndex { get; private set; } = 0;
+ 
+    protected override void OnParametersSet()
+    {
+        StartIndex = Math.Max(CurrentPage - 5, 1);
+        FinishIndex = Math.Min(CurrentPage + 5, PageCount);
+ 
+        base.OnParametersSet();
+    }
+ 
+    protected void PagerButtonClicked(int page)
+    {
+        PageChanged?.Invoke(page);
+    }
 }
