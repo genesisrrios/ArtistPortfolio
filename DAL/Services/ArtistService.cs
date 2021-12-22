@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using DAL.Helpers;
 using Microsoft.Extensions.Options;
+using DAL;
+using MongoDB.Bson;
 
 namespace DAL.Services
 {
@@ -24,8 +26,11 @@ namespace DAL.Services
             _galleryCollection = pictureCollection;
         }
 
-        public async Task<(double totalRecords, int totalPages, IReadOnlyList<Picture> data)> GetPagedGallery(int page, int pageSize)
+        public async Task<(double totalRecords, int totalPages, IReadOnlyList<Picture> data)> GetPagedGallery(int page, int pageSize, FiltersTypes.ArtistFilter filter = default)
         {
+            var test = Builders<Picture>.Filter.Eq(x => x.Name, "image1");
+            var (records,pages,picture)= await _galleryCollection.GetPagedResults(page, pageSize, test);
+            //TODO WORK ON FILTERS!
             return await _galleryCollection.GetPagedResults(page, pageSize);
         }
     }
