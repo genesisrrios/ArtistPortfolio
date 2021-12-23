@@ -26,12 +26,27 @@ namespace DAL.Services
             _galleryCollection = pictureCollection;
         }
 
-        public async Task<(double totalRecords, int totalPages, IReadOnlyList<Picture> data)> GetPagedGallery(int page, int pageSize, FiltersTypes.ArtistFilter filter = default)
+        public async Task<(double totalRecords, int totalPages, IReadOnlyList<Picture> data)> GetPagedGallery(int page, int pageSize, FiltersTypes.ArtistFilter filterParameters = default)
         {
-            var test = Builders<Picture>.Filter.Eq(x => x.Name, "image1");
-            var (records,pages,picture)= await _galleryCollection.GetPagedResults(page, pageSize, test);
-            //TODO WORK ON FILTERS!
-            return await _galleryCollection.GetPagedResults(page, pageSize);
+            var builder = Builders<Picture>.Filter;
+            var filter = builder.Empty;
+
+            if(filterParameters is not null)
+            {
+                if (!String.IsNullOrEmpty(filterParameters.Description))
+                {
+                    var descriptionFilter = builder.AnyIn("Description", new string[] { filterParameters.Description });
+                    filter &= descriptionFilter;
+                }
+
+                if (filterParameters.Properties is not null && filterParameters.Properties.Any())
+                {
+                    var propertyFilter = builder.AnyIn("Properties", filterParameters.Properties);
+                    filter &= propertyFilter;
+                }
+            }
+
+            return await _galleryCollection.GetPagedResults(page, pageSize,filter);
         }
     }
 }
