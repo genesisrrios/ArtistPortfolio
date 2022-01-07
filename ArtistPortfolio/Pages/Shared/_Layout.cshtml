@@ -39,10 +39,13 @@
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3" id="app">
-            @RenderBody()
-        </main>
+    <div class="container-fluid">
+        <div class="row">
+            @RenderSection("Sidebar",false)
+            <main role="main" class="@(IsSectionDefined("Sidebar") == true ? "col-md-9 col-lg-10" : "col-md-12 col-lg-12") ms-sm-auto px-md-4" id="app">
+                @RenderBody()
+            </main>
+        </div>
     </div>
 
     <footer class="border-top footer text-muted">

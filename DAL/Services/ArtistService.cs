@@ -48,5 +48,17 @@ namespace DAL.Services
 
             return await _galleryCollection.GetPagedResults(page, pageSize,filter);
         }
+        public IEnumerable<string> GetCategories()
+        {
+            var result = new List<string>();
+
+            var categories = _galleryCollection.FilterBy(_ => true).Select(x => x.Properties);
+            
+            foreach(var category in categories)
+                if(category is not null)
+                    result.AddRange(category.Select(x => x));
+
+            return result.Distinct();
+        }
     }
 }

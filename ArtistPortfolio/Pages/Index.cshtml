@@ -8,6 +8,10 @@
 @section Styles {
     <link href="@Url.Content("~/css/image-hover.css")" rel="stylesheet" type="text/css" />
 }
+@section Sidebar{
+    <component type="typeof(GalleryFilter)" render-mode="ServerPrerendered"/>
+
+}
 <div class="row">
     <component type="typeof(Gallery)" render-mode="ServerPrerendered"/>
 </div>
