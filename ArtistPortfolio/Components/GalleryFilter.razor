@@ -3,9 +3,7 @@
     <div class="sidebar-sticky">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <form class="form-inline mt-2 mt-md-0">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-                  </form>
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" @oninput="OnDescriptionChanged" aria-label="Search">
             </li>
             <li class="mb-1 nav-item">
                 <button class="btn btn-toggle align-items-center rounded" data-bs-toggle="collapse" data-bs-target="#category-collapse" aria-expanded="true">

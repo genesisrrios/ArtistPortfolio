@@ -10,6 +10,7 @@ using DAL.Helpers;
 using Microsoft.Extensions.Options;
 using DAL;
 using MongoDB.Bson;
+using System.Text.RegularExpressions;
 
 namespace DAL.Services
 {
@@ -35,7 +36,8 @@ namespace DAL.Services
             {
                 if (!String.IsNullOrEmpty(filterParameters.Description))
                 {
-                    var descriptionFilter = builder.AnyIn("Description", new string[] { filterParameters.Description });
+                    var queryExpr = new BsonRegularExpression(new Regex(filterParameters.Description, RegexOptions.None));
+                    var descriptionFilter = builder.Regex("Description", queryExpr);
                     filter &= descriptionFilter;
                 }
 
@@ -45,7 +47,6 @@ namespace DAL.Services
                     filter &= propertyFilter;
                 }
             }
-
             return await _galleryCollection.GetPagedResults(page, pageSize,filter);
         }
         public IEnumerable<string> GetCategories()
