@@ -5,6 +5,13 @@
     {
       "library": "axios@0.24.0",
       "destination": "wwwroot/lib/axios/"
+    },
+    {
+      "library": "font-awesome@5.15.4",
+      "destination": "wwwroot/lib/font-awesome/",
+      "files": [
+        "css/all.min.css"
+      ]
     }
   ]
 }

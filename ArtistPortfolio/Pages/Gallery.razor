@@ -1,0 +1,86 @@
+﻿@page "/"
+@layout BlazorLayout;
+
+@using ArtistPortfolio.Pages.Shared
+@using Microsoft.Extensions.FileProviders
+@using Microsoft.AspNetCore.Mvc
+@using ViewModel
+@using System.IO
+@using ArtistPortfolio.Components
+@inject IWebHostEnvironment _webHostEnvironment
+@inject ArtistService _service
+<div class="row">
+<GalleryFilter  DescriptionChanged="OnDescriptionChanged"          
+            CategoryChanged="CategoryChanged"/>
+    <div class="col-md-9 col-lg-10">
+        <div class="row">
+            @foreach(var picture in ViewModel)
+            {
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <img style="height:300px;width:300px" class="img-fluid" loading=lazy src="/images/gallery/@picture.Name"  alt="@picture.Description">
+		            <p>@picture.Description</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+@*<Pager CurrentPage=Page PageCount=TotalPages PageChanged=ChangePage></Pager>
+*@
+@code {
+    private List<PictureViewModel> ViewModel { get; set; } = new List<PictureViewModel>();
+    private int Page { get; set; } = 1;
+    private int TotalPages { get; set; } = 1;
+    private double TotalRecords { get; set; } = 1;
+    private const int PageSize = 15;
+
+    [Parameter]public string Description { get; set; }
+    [Parameter] public List<string> Categories { get; set; } = new List<string>();
+
+
+    private IDirectoryContents? Contents = null;
+    protected override async Task OnInitializedAsync()
+    {
+        var provider = new PhysicalFileProvider(_webHostEnvironment.WebRootPath);
+        Contents = provider.GetDirectoryContents(Path.Combine("images", "gallery"));
+        await GetData();
+    }
+    private async Task GetData()
+    {
+        IReadOnlyList<DAL.Models.Picture> pics;
+        var Pictures = new List<PictureViewModel>();
+        (TotalRecords, TotalPages, pics) = await _service.GetPagedGallery(Page, PageSize,new DAL.FiltersTypes.ArtistFilter
+        {
+            Description = Description,
+            Properties = Categories.ToArray()
+        });
+
+        foreach (var image in pics)
+        {
+            Pictures.Add(new PictureViewModel
+            {
+                Description = image.Description,
+                Name = Contents.Where(c => c.Name.Contains(image.Name)).First().Name
+            });
+        }
+        ViewModel = Pictures;
+    }
+    private async void ChangePage(int Page) {
+        this.Page = Page;
+        await GetData();
+        this.StateHasChanged();
+    }
+    private async Task OnDescriptionChanged(string description)
+    {
+        Description = description;
+        await GetData();
+        this.StateHasChanged();
+    }
+    private async Task CategoryChanged(List<string> categories)
+    {
+        Categories = categories;
+        await GetData();
+        this.StateHasChanged();
+    }
+}
