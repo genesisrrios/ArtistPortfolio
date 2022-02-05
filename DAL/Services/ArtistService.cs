@@ -11,6 +11,7 @@ using Microsoft.Extensions.Options;
 using DAL;
 using MongoDB.Bson;
 using System.Text.RegularExpressions;
+using DAL.Interfaces;
 
 namespace DAL.Services
 {
@@ -60,6 +61,10 @@ namespace DAL.Services
                     result.AddRange(category.Select(x => x));
 
             return result.Distinct();
+        }
+        public async Task<Artist> GetArtist(string userId)
+        {
+            return await _artistCollection.FindOneAsync(x=>x.UserId == userId);
         }
     }
 }

@@ -10,7 +10,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.Services
+namespace DAL.Interfaces
 {
     public interface IMongoRepository<TDocument> where TDocument : IDocument
     {

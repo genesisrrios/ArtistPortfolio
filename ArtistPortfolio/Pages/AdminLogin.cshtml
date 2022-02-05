@@ -1,0 +1,16 @@
+﻿@page "/login"
+@model ArtistPortfolio.Pages.AdminLoginModel
+@{
+}
+
+<form method="post">
+  <div class="mb-3">
+    <label asp-for="@Model.LoginInfo.UserId" class="form-label">User id</label>
+    <input asp-for="@Model.LoginInfo.UserId" type="text" class="form-control" id="userId" placeholder="Enter user id">
+  </div>
+  <div class="mb-3">
+    <label asp-for="@Model.LoginInfo.Password" class="form-label">Password</label>
+    <input type="password" class="form-control" id="password" asp-for="@Model.LoginInfo.Password">
+  </div>
+  <button type="submit" class="btn btn-primary">Login</button>
+</form>

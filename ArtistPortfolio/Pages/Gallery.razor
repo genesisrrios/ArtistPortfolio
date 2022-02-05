@@ -10,7 +10,7 @@
 @inject IWebHostEnvironment _webHostEnvironment
 @inject ArtistService _service
 <div class="row">
-<GalleryFilter  DescriptionChanged="OnDescriptionChanged" CategoryChanged="CategoryChanged"/>
+    <GalleryFilter  DescriptionChanged="OnDescriptionChanged" CategoryChanged="CategoryChanged"/>
     <div class="col-md-9 col-lg-10">
         <div class="row">
             @foreach(var picture in ViewModel)
